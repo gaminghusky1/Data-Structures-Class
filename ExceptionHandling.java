@@ -63,7 +63,10 @@ public class ExceptionHandling {
                 }
             } catch (NumberFormatException fmt) {
                 JOptionPane.showMessageDialog(null,
-                        "Grade must be an integer value. Try again.");
+                        String.format("Grade must be an integer value. Try again.\n %s", fmt.getMessage()));
+                fmt.printStackTrace();
+            } finally {
+                JOptionPane.showMessageDialog(null, "finally block executed.");
             }
         }
         return grade;
