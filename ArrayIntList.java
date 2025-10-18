@@ -133,12 +133,12 @@ public class ArrayIntList {
     }
 
     public int binarySearch(int fromIdx, int toIdx, int val) {
-        if (toIdx < fromIdx || fromIdx >= size || toIdx < 0) {
+        if (toIdx < fromIdx || toIdx > size || fromIdx < 0) {
             throw new IllegalArgumentException();
         }
         int lo = fromIdx, hi = toIdx - 1;
         while (lo <= hi) {
-            int mid = (lo + hi) / 2;
+            int mid = lo + (hi - lo) / 2;
             if (list[mid] == val) {
                 return mid;
             } else if (list[mid] < val) {
@@ -147,8 +147,6 @@ public class ArrayIntList {
                 hi = mid - 1;
             }
         }
-        if (lo == size) return - size - 1;
-        else if (list[lo] == val) return lo;
         return - lo - 1;
     }
 
