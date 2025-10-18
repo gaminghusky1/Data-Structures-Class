@@ -136,8 +136,8 @@ public class ArrayIntList {
         if (toIdx < fromIdx || fromIdx >= size || toIdx < 0) {
             throw new IllegalArgumentException();
         }
-        int lo = fromIdx, hi = toIdx;
-        while (lo < hi) {
+        int lo = fromIdx, hi = toIdx - 1;
+        while (lo <= hi) {
             int mid = (lo + hi) / 2;
             if (list[mid] == val) {
                 return mid;

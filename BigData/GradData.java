@@ -3,49 +3,37 @@ package BigData;
 import java.util.*;
 
 public class GradData {
-    private static final String[] columns = {"College_ID", "IQ", "Prev_Sem_Result", "CGPA", "Academic_Performance",
-            "Internship_Experience", "Extra_Curricular_Score", "Communication_Skills", "Projects_Completed", "Placement"};
-    private static final Class<?>[] types = {String.class, Integer.class, Double.class, Double.class, Integer.class,
-            Boolean.class, Integer.class, Integer.class, Integer.class, Boolean.class};
-    private final Map<String, Object> data;
+    public static final String[] columns = {"IQ", "Prev_Sem_Result", "CGPA", "Academic_Performance",
+            "Extra_Curricular_Score", "Communication_Skills", "Projects_Completed"};
+    private final Map<String, Double> data;
 
     public GradData(String dataString) {
         data = new LinkedHashMap<>();
         String[] temp = dataString.split(",");
         for (int i = 0; i < columns.length; i++) {
-            Object value;
-            if (types[i] == Boolean.class) {
-                value = temp[i].equals("Yes");
-            } else if (types[i] == Integer.class) {
-                value = Integer.parseInt(temp[i]);
-            } else if (types[i] == Double.class) {
-                value = Double.parseDouble(temp[i]);
-            } else {
-                value = temp[i];
-            }
-            data.put(columns[i], value);
+            data.put(columns[i], Double.parseDouble(temp[i]));
         }
     }
 
-    public <T> T get(String columnName, Class<T> type) {
+    public double get(String columnName) {
         if (!data.containsKey(columnName)) {
-            return null;
+            throw new IllegalArgumentException(String.format("Column '%s' not found", columnName));
         }
-        return type.cast(data.get(columnName));
+        return data.get(columnName);
+    }
+
+    public void set(String columnName, double value) {
+        if (!data.containsKey(columnName)) {
+            throw new IllegalArgumentException(String.format("Column %s not found", columnName));
+        }
+        data.put(columnName, value);
     }
 
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        for (Map.Entry<String, Object> pair : data.entrySet()) {
-            Object v = pair.getValue();
-            sb.append(pair.getKey()).append(": ");
-            if (v == null || (v.toString()).isEmpty()) {
-                sb.append("no data");
-            } else {
-                sb.append(v);
-            }
-            sb.append("\n");
+        for (Map.Entry<String, Double> pair : data.entrySet()) {
+            sb.append(pair.getKey()).append(": ").append(pair.getValue()).append("\n");
         }
         return sb.toString();
     }
