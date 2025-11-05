@@ -14,15 +14,17 @@ public class LinkedIntListMaster {
             System.out.println("Would you like to \n" +
                     "'A' to add to the end.\n" +
                     "'I' to insert in the middle.\n" +
+                    "'As' to add a value in a way that keeps the list sorted (Precondition: list is already sorted).\n" +
                     "'G' to get a value at an index.\n" +
                     "'S' to set the value at an index.\n" +
                     "'Sz' to get the size of the LinkedList.\n" +
                     "'E' to see if the LinkedList is empty.\n" +
                     "'D' to delete a value at an index.\n" +
-                    "'F' to find in array with linear search.\n" +
+                    "'F' to find in LinkedList with linear search.\n" +
                     "'C' to see if the LinkedList contains a specific element.\n" +
                     "'P' to print all of the values.\n" +
-                    "'Srt' to sort the array with mergesort.\n" +
+                    "'Srt' to sort the LinkedList with mergesort.\n" +
+                    "'Clr' to clear the LinkedList.\n" +
                     "'Q' to quit.\n");
             // Take in an option from the user
             userSelection = userSelector.next();
@@ -34,6 +36,10 @@ public class LinkedIntListMaster {
 
                 case "I":
                     insertIntoLinkedList(valuesList, userSelector);
+                    break;
+
+                case "As":
+                    addSortedIntoLinkedList(valuesList, userSelector);
                     break;
 
                 case "G":
@@ -71,6 +77,10 @@ public class LinkedIntListMaster {
                 case "Srt":
                     sortLinkedList(valuesList);
                     break;
+                    
+                case "Clr":
+                    clearLinkedList(valuesList);
+                    break;
 
                 case "Q":
                     completed = true;
@@ -106,6 +116,16 @@ public class LinkedIntListMaster {
                 System.out.println("Invalid index received; no change");
         } catch (NumberFormatException e) {
             System.out.println("Invalid index or value received; no change");
+        }
+    }
+
+    public static void addSortedIntoLinkedList(LinkedIntList valuesList, Scanner userSelector) {
+        System.out.println("What value would you like to add?");
+        try {
+            int val = Integer.parseInt(userSelector.nextLine());
+            valuesList.addSorted(val);
+        } catch (NumberFormatException e) {
+            System.out.println("Invalid value received; no change");
         }
     }
 
@@ -164,12 +184,12 @@ public class LinkedIntListMaster {
     }
 
     public static void findInLinkedList(LinkedIntList valuesList, Scanner userSelector) {
-        System.out.println("Which value would you like to search for in the array?");
+        System.out.println("Which value would you like to search for in the LinkedList?");
         try {
             int val = Integer.parseInt(userSelector.nextLine());
             int idx = valuesList.indexOf(val);
             if (idx < 0) {
-                System.out.println("Value not found in array.");
+                System.out.println("Value not found in LinkedList.");
             } else {
                 System.out.printf("Value found at index %d%n", idx);
             }
@@ -197,6 +217,11 @@ public class LinkedIntListMaster {
 
     public static void sortLinkedList(LinkedIntList valuesList) {
         valuesList.sort();
-        System.out.println("Array sorted with mergesort.");
+        System.out.println("LinkedList sorted with mergesort.");
+    }
+
+    public static void clearLinkedList(LinkedIntList valuesList) {
+        valuesList.clear();
+        System.out.println("LinkedList cleared.");
     }
 }

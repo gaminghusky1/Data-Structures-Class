@@ -40,6 +40,17 @@ public class LinkedIntList {
         temp.next = new IntNode(val, temp.next);
     }
 
+    public void addSorted(int val) {
+        if (head == null || head.val >= val) {
+            head = new IntNode(val, head);
+        }
+        IntNode temp = head;
+        while (temp.next != null && temp.next.val < val) {
+            temp = temp.next;
+        }
+        temp.next = new IntNode(val, temp.next);
+    }
+
     public int get(int idx) {
         if (idx < 0 || idx > size) {
             throw new IndexOutOfBoundsException(String.format("Index %d out of bounds for size %d.", idx, size));
@@ -76,6 +87,7 @@ public class LinkedIntList {
         if (idx < 0 || idx > size) {
             throw new IndexOutOfBoundsException(String.format("Index %d out of bounds for size %d.", idx, size));
         }
+        size--;
         if (idx == 0) {
             int oldVal = head.val;
             head = head.next;
@@ -88,6 +100,11 @@ public class LinkedIntList {
         int oldVal = temp.next.val;
         temp.next = temp.next.next;
         return oldVal;
+    }
+
+    public void clear() {
+        head = null;
+        size = 0;
     }
 
     public int indexOf(int val) {
@@ -117,7 +134,9 @@ public class LinkedIntList {
     }
 
     private IntNode mergeSort(IntNode head, int size) {
-        if (size <= 1) {
+        if (size == 0) {
+            return null;
+        } else if (size == 1) {
             return new IntNode(head.val, null);
         }
         int mid = size / 2;
